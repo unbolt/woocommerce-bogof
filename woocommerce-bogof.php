@@ -59,8 +59,11 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
         }
 
         /**
-         * [woocommerce_init description]
-         * @return [type] [description]
+         * Add the actions and filters to the hooks as required for the
+         * plugin to operate.
+         *
+         * @since   0.0.1
+         * @version 0.0.1
          */
         function woocommerce_init() {
 
@@ -76,12 +79,6 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
             add_action( 'woocommerce_add_to_cart',              array( $this, 'apply_bogof_test' ) );
             add_action( 'woocommerce_check_cart_items',         array( $this, 'apply_bogof_test' ) );
             add_filter( 'woocommerce_cart_totals_coupon_label', array( $this, 'woocommerce_cart_totals_coupon_label' ), 10, 2 );
-
-            // This relies on WC being >= version 3.0.0
-            // TODO: Should wrap this in a check and a fallback just incase
-            // I am sure there's something you can add in to check requirements
-            // are met!
-            //add_action( 'woocommerce_new_order_item', array( $this, 'woocommerce_new_order_item' ), 10, 3 );
 
         }
 
@@ -105,7 +102,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
                 'woocommerce',
                 'WC BOGOF Settings',
                 'BOGOF Settings',
-                'manage_options', // TODO: This capability could/should be changing to managing woocommerce
+                'manage_woocommerce',
                 'wc-bogof-setting-admin',
                 array( $this, 'create_admin_page' )
             );
@@ -206,7 +203,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
          * @param   array   $input     Array containing all the form inputs
          *
          * @since   0.0.1
-         * @version 0.0.1
+         * @version 0.0.2
          */
         public function sanitize( $input ) {
 
@@ -235,10 +232,16 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
             }
 
             // At the moment this simply assigns whatever the user has entered.
-            // TODO: Process this into an array and then check if all the values
-            // are integers. If any of them are not then just save a blank val.
             if( isset( $input['excluded_products'] ) ) {
-                $new_input['excluded_products'] = $input['excluded_products'];
+
+                $excluded_ids = explode(',', $input['excluded_products']);
+                $new_excluded_ids = array();
+
+                foreach($excluded_ids as $id) {
+                    $new_excluded_ids[] = intval($id);
+                }
+
+                $new_input['excluded_products'] = implode(',', $new_excluded_ids);
             }
 
 
@@ -261,7 +264,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
         }
 
         public function print_exclude_info() {
-            print 'Use a comma separated list of product IDs to exclude them from the BOGOF offer. Future TODO: Add product lookup, or exclude by category/tag options.';
+            print 'Use a comma separated list of product IDs to exclude them from the BOGOF offer. Future addition: Add product lookup, or exclude by category/tag options.';
         }
 
         public function bogof_active_callback() {
