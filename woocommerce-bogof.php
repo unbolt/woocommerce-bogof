@@ -198,7 +198,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
 
 
         /**
-         * Sanitize each setting field. This contains very based sanitisation
+         * Sanitize each setting field. This contains very basic sanitisation
          * at this time.
          *
          * @param   array   $input     Array containing all the form inputs
@@ -265,6 +265,8 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
 
         /**
          * Output and form input functions below this point for the options page
+         *
+         * Nothing very interesting happens here, outputting stuff directly to the browser.
          */
         public function print_intro_info() {
             print 'Please note that if a value other than <strong>0</strong> is present in the Percent Discount field then that discount will be applied to the cheapest item, rather than the cheapest being free.<br /><br />If no discount code is entered then "BOGOF" will be displayed to the customer.';
@@ -322,7 +324,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
            * @since     0.0.1
            * @version   0.0.1
            */
-          function woocommerce_after_calculate_totals( ) {
+          function woocommerce_after_calculate_totals() {
               // We don't want this function to recurse when running
               // so we remove it from the hook, and then add it again after
               remove_action( 'woocommerce_after_calculate_totals', array( $this, 'woocommerce_after_calculate_totals' ) );
