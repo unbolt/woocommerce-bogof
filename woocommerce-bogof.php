@@ -345,8 +345,10 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
 
               $this->options = get_option( 'wc_bogof_options' );
 
-              if( $this->options['bogof_active'] == 1 ) {
-                  return true;
+              if( isset( $this->options['bogof_active'] ) ) {
+				  if( $this->options['bogof_active'] == 1) {
+					   return true;
+				  }
               }
 
               return false;
