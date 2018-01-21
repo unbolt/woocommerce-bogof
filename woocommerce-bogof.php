@@ -7,7 +7,7 @@
 * Author URI: https://unbo.lt/
 * Version: 0.0.1
 * Requires at least: 4.3
-* Tested up to: 4.3
+* Tested up to: 4.7.5
 * WC requires at least: 3.1.1
 * WC tested up to: 3.1.1
 * Text Domain: wc-bogof
