@@ -12,8 +12,9 @@
 * WC tested up to: 3.1.1
 * Text Domain: wc-bogof
 *
-* Please see readme.txt for the general outline requirements
-* for this plugin and the approximate plan.
+* Please see readme for the general outline requirements
+* for this plugin and the approximate plan, plus potential
+* future developments.
 *
 */
 
@@ -231,7 +232,10 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
                 }
             }
 
-            // At the moment this simply assigns whatever the user has entered.
+            // For excluded products, we are provided a comma separated list
+            // so we'll check that the values provided are ints and put them
+            // back into the array if so. Non matching values should then just
+            // revert back to 0, which will not conflict with any further checks.
             if( isset( $input['excluded_products'] ) ) {
 
                 $excluded_ids = explode(',', $input['excluded_products']);
@@ -244,12 +248,15 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
                 $new_input['excluded_products'] = implode(',', $new_excluded_ids);
             }
 
-
+            // Update the discount code, if no discount code is provided
+            // then we default back to BOGOF. Otherwise update with whatever
+            // the code provided is. We'll also sanitize the user input because
+            // they cannot be trusted with anything nice.
             if( isset( $input['discount_code'] ) ) {
                 if( empty( $input['discount_code'] ) ) {
                     $new_input['discount_code'] = 'BOGOF';
                 } else {
-                    $new_input['discount_code'] = $input['discount_code'];
+                    $new_input['discount_code'] = sanitize_text_field($input['discount_code']);
                 }
             }
 
@@ -486,6 +493,9 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
            * Calculate the valid discount amount to apply to a basket.
            *
            * @return int amount to discount
+           *
+           * @since     0.0.1
+           * @version   0.0.1
            */
           function get_discount() {
               // If the cart has less than 2 items
@@ -563,6 +573,9 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
            *                            but may change in future.
            *
            * @return array      $data   Coupon data
+           *
+           * @since     0.0.1
+           * @version   0.0.1
            */
           function woocommerce_get_shop_coupon_data( $data, $code ) {
 
