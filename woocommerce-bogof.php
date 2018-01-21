@@ -479,7 +479,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
 
                   // If there's no code yet then we'll make a new one and apply
                   // it to the basket.
-                  if ( !isset( $code ) ) {
+                  if ( ! isset( $code ) ) {
                       if ( $this->is_bogof_active() ) {
                           $bogo_coupon_code = $this->get_discount_code();
                           WC()->cart->add_discount( $bogo_coupon_code );
@@ -556,7 +556,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
                   }
 
                   // If there's any discount then return it.
-                  if ( !empty( $discount ) ) {
+                  if ( ! empty( $discount ) ) {
                       return $discount;
                   }
               }
