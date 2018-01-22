@@ -42,9 +42,10 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
          * This stores the following options that can be configured in the
          * admin section
          *
-         * @var bogof_active 1:0
-         * @var percent_discount (optional) 0-100
-         * @var excluded_products array of product IDs to exclude
+         * @var bool 	bogof_active 		1:0
+         * @var int 	percent_discount 	(optional) 0-100
+         * @var string 	discount_code 		code to be displayed to the customer, defaults to BOGOF
+         * @var string 	excluded_products 	comma separated list of product IDs to exclude
          *
          * @var array
          */
@@ -98,7 +99,7 @@ if ( ! class_exists( 'WC_BOGOF' ) ) :
          * @version 0.0.1
          */
         function admin_menu() {
-            // This page will be under "Settings"
+            // This page will be under "WooCommerce" in the sidebar
             add_submenu_page(
                 'woocommerce',
                 'WC BOGOF Settings',
